@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.catchbest.R;
 
@@ -35,26 +36,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void init() {
-        //针对手机和平板设备，判断系统是否root
-        if (checkSuFile()) {
+        if (!checkAccess()) {//判断Android设备是否支持访问dev/bus/usb 权限
+            if (checkSuFile()) {//针对手机和平板设备，判断系统是否root
+                upgradeRootPermission("chmod -R 777 /dev/bus/usb/");
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("提示");
+                builder.setMessage("系统未root，功能不能使用");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
 
-            upgradeRootPermission("chmod -R 777 /dev/bus/usb/");
+                AlertDialog dialog = builder.create();
+                dialog.setCanceledOnTouchOutside(false);
 
+                dialog.show();
+            }
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("提示");
-            builder.setMessage("系统未root，功能不能使用");
-            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.setCanceledOnTouchOutside(false);
-
-            dialog.show();
+            upgradeRootPermission("chmod -R 777 /dev/bus/usb/");
         }
     }
 
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             p = Runtime.getRuntime().exec("su");// 经过Root处理的android系统即有su命令
             dos = new DataOutputStream(p.getOutputStream());
             dis = new DataInputStream(p.getInputStream());
-            dos.writeBytes(cmd + "\n");
+            dos.writeBytes(cmd + "\n");//更改dev/bus/usb 权限为 777
             dos.flush();
             dos.writeBytes("setenforce 0" + "\n");
             dos.flush();
@@ -128,6 +130,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return false;
         } finally {
             if (process != null) process.destroy();
+        }
+    }
+
+    /**
+     * 判断Android设备否可以访问adb ls dev/bus/usb
+     * @return
+     */
+    private boolean checkAccess() {
+        Runtime mRuntime = Runtime.getRuntime();
+        try {
+            Process mProcess = mRuntime.exec("ls /dev/bus/usb/ -al ");
+            BufferedReader mReader = new BufferedReader(new InputStreamReader(mProcess.getInputStream()));
+            StringBuffer mRespBuff = new StringBuffer();
+            char[] buff = new char[1024];
+            int ch = 0;
+            while ((ch = mReader.read(buff)) != -1) {
+                mRespBuff.append(buff, 0, ch);
+            }
+            mReader.close();
+            Log.e(TAG, "msg:" + mRespBuff.toString());
+//            Toast.makeText(MainActivity.this, "msg:" + mRespBuff.toString(), Toast.LENGTH_SHORT).show();
+            if(mRespBuff != null) {
+                if(mRespBuff.toString().contains("daemon not running")) {
+                    Log.e(TAG,"没有访问dev/bus/usb/ 的权限");
+                    return false;
+                } else {
+                    Log.e(TAG,"有访问dev/bus/usb/ 的权限");
+                    return true;
+                }
+            } else {
+                Log.e(TAG,"没有访问dev/bus/usb/ 的权限");
+                return false;
+            }
+        } catch (IOException e) {
+// TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
         }
     }
 

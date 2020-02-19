@@ -115,13 +115,14 @@ public class ImageViewActivity extends AppCompatActivity implements View.OnClick
         }
 
         //获取相机信息
-//        int[] deviceTypeArray = new int[ksjcam.m_devicecount];
-//        int[] serialsArray = new int[ksjcam.m_devicecount];
-//        int[] firmwareVersionArray = new int[ksjcam.m_devicecount];
-//        ksjcam.DeviceGetInformation(0, deviceTypeArray, serialsArray, firmwareVersionArray);
+        /**int[] deviceTypeArray = new int[ksjcam.m_devicecount];
+        int[] serialsArray = new int[ksjcam.m_devicecount];
+        int[] firmwareVersionArray = new int[ksjcam.m_devicecount];
+        ksjcam.DeviceGetInformation(0, deviceTypeArray, serialsArray, firmwareVersionArray);
 
-//        String content = "相机个数：" + ksjcam.m_devicecount + "\n相机型号：" + deviceTypeArray[0] + "\n序列号：" + serialsArray[0] + "\n版本：" + firmwareVersionArray[0];
-//        Log.e(TAG,"info:" + content);//输出相机信息
+        String content = "相机个数：" + ksjcam.m_devicecount + "\n相机型号：" + deviceTypeArray[0] + "\n序列号：" + serialsArray[0] + "\n版本：" + firmwareVersionArray[0];
+        Log.e(TAG,"info:" + content);//输出相机信息
+         */
 
         ksjcam.CaptureSetFieldOfView(0, 0, 0, 728, 544);//设置采集区域
         ksjcam.SetParam(0, KSJ_RED.ordinal(), 48);//增益
