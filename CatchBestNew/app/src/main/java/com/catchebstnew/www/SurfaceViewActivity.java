@@ -122,9 +122,6 @@ public class SurfaceViewActivity extends AppCompatActivity implements SurfaceHol
             Toast.makeText(this, "彩色相机", Toast.LENGTH_SHORT).show();
             isStart = true;
             startSurfaceView();
-        } else {
-            startActivity(new Intent(this, ImageViewActivity.class));
-            finish();
         }
     }
 
@@ -269,8 +266,7 @@ public class SurfaceViewActivity extends AppCompatActivity implements SurfaceHol
         super.onDestroy();
         isStart = false;
         tv_fps.setText("fps:0.0");
-
-
+        
     }
 
 

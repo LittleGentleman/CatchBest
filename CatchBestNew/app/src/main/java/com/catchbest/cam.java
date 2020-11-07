@@ -18,6 +18,8 @@ public class cam {
     }
 
 
+    public native int EnableLog(int bEnable);
+
     public native int Init();
 
     public native int CaptureRawData(int index, Object buffer);
@@ -64,6 +66,7 @@ public class cam {
     public native int  CaptureBitmap(int index, String fullpath);
 
     public native int SetParam(int index,int param,int value);
+    public native int GetParam(int index,int param,int[] value);
 
     public native int PreInit(int fd);
 
@@ -84,6 +87,15 @@ public class cam {
     public native int QueryFunction(int index,int function);
 
     public native int AEStart(int index,int nStart, int nMaxCount,int nTarget);
+
+    public native int WrEEPROM(int index, int address, int value);
+    public native int RdEEPROM(int index, int address, int[] value);
+
+    public native int WrEEPROMEx(int index, int address, int value);
+    public native int RdEEPROMEx(int index, int address, int[] value);
+
+    public native int WrEEPROMExEx(int index, int address, int bytes, Object buffer);
+    public native byte[] RdEEPROMExEx(int index, int address, int bytes);
 
     public native int  UnInit();
 

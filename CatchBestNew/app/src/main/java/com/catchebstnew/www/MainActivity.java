@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String TAG = "MainActivity";
 
     private Button btnStart;
+    private Button btnStart2;
+    private Button btnRK3399;
 
 
     @Override
@@ -31,8 +33,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         init();
         btnStart = findViewById(R.id.btn_start);
+        btnStart2 = findViewById(R.id.btn_start2);
+        btnRK3399 = findViewById(R.id.btn_rk3399);
 
         btnStart.setOnClickListener(this);
+        btnStart2.setOnClickListener(this);
+        btnRK3399.setOnClickListener(this);
     }
 
     private void init() {
@@ -52,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 AlertDialog dialog = builder.create();
                 dialog.setCanceledOnTouchOutside(false);
-
                 dialog.show();
             }
         } else {
@@ -176,6 +181,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.btn_start:
                 startActivity(new Intent(this, SurfaceViewActivity.class));
+                break;
+
+            case R.id.btn_start2:
+                startActivity(new Intent(this, ImageViewActivity.class));
+                break;
+
+            case R.id.btn_rk3399:
+                startActivity(new Intent(this,Rk3399_641M_Activity.class));
                 break;
         }
     }

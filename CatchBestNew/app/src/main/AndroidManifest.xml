@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -22,10 +23,17 @@
         <activity
             android:name="com.catchebstnew.www.SurfaceViewActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name="com.catchebstnew.www.ImageViewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:keepScreenOn="true" />
+        <activity
+            android:name="com.catchebstnew.www.ImageViewActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:keepScreenOn="true" />
+        <activity android:name="com.catchebstnew.www.Rk3399_641M_Activity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:keepScreenOn="true" ></activity>
     </application>
 
 </manifest>
